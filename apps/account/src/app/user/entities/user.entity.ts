@@ -1,18 +1,24 @@
 import { IUser, UserRole } from "@school-nestjs/interfaces";
 import {genSalt, hash, compare} from 'bcryptjs';
+import { Exclude } from "class-transformer";
 
 export class UserEntity implements IUser {
     _id?: string;
     displayName?: string;
     email: string;
+    
+    @Exclude({
+        toPlainOnly: true
+    })
     passwordHash: string;
+    
     role: UserRole;
     createdAt?: Date;
     updatedAt?: Date;
 
 
-    constructor(user: IUser) {
-        this._id = user._id;
+    constructor(user: Omit<IUser, 'passwordHash'> & { passwordHash?: string }) {
+        this._id = user._id?.toString();
         this.displayName = user.displayName;
         this.email = user.email;
         this.role = user.role;

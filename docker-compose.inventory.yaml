@@ -1,0 +1,20 @@
+version: "3.9"
+name: school-local
+
+services:
+    mongo:
+        container_name: school-mongo
+        image: mongo:6.0.5
+        restart: always
+        environment:
+            - MONGO_INITBD_DATABASE=school_local
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=admin
+        volumes:
+            - v-mongo-accomplishr-db:/data/db
+        ports:
+            - "27166:27017"
+
+
+volumes:
+    v-mongo-accomplishr-db:
